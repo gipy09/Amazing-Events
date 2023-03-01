@@ -134,6 +134,25 @@ ul a {
   width: 100%;
   
 }
+.fcard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 100%;
+}
+.fcard .btn {
+  float: right;
+}
+.fcard .mb-3 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.fcard label{
+  width: 100%;
+}
+
 .items .card {
   padding-top: 18px;
   width: 310px;
@@ -165,6 +184,7 @@ ul a {
   align-items: center;
   display: flex;
   justify-content: space-between;
+
 }
 
 .footer img {
@@ -180,14 +200,8 @@ ul a {
     flex-direction: column;
     justify-content: flex-end;
 }
-.fcard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 400px;
-  width: 100%;
-}
-.fcard .btn {
+
+ .btn {
   float: right;
 }
 form {
@@ -289,13 +303,7 @@ th span{
   }
 }
 
-@media (min-width: 1176px) {
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-  }
-}
+
 @media (max-width:385px){
   .social{
     display: flex;
