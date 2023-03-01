@@ -59,21 +59,21 @@ for (const event of eventList) {
   card_body.appendChild(description)
   eventCard.appendChild(card_body);
 
-
+  
   const date = document.createElement("p");
-  date.textContent = `${event.date}`;
+  date.textContent = `Date of Event: ${event.date}`;
   card_body.appendChild(date)
   eventCard.appendChild(card_body);
 
   const place = document.createElement("p");
-  place.textContent = `Place: ${event.place}`;
+  place.textContent = `Place of the Event: ${event.place}`;
   card_body.appendChild(place)
   eventCard.appendChild(card_body);
 
   const priceCont =document.createElement("div")
   priceCont.classList.add("price")
   const price = document.createElement("p");
-  price.textContent = `Price: ${event.price}`;
+  price.textContent = `Price of ticket: ${event.price}$`;
   const button = document.createElement("a")
   button.classList.add("btn")
   button.textContent= `Add Cart`
