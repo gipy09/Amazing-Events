@@ -170,18 +170,5 @@ var data = {
         "estimate":9000,
         "price":250
       },
-      {
-        _id: 15,
-        "image":"https://i.postimg.cc/T3C92KTN/scale.jpg",
-        "name":"Avengers",
-        "date":"2022-01-01",
-        "description":"Marvel's Avengers Premier in 3d, the start of an epic saga with your favourite superheroes.",
-        "category":"Cinema",
-        "place":"Room D1",
-        "capacity":9000,
-        "estimate":9000,
-        "price":250
-      }
     ]
   };
-  export {data}

@@ -1,133 +1,61 @@
-import { data } from "./data.js";
-
-let currentDateEvent = data.currentDate;
 
 let eventList = data.events;
-let allEvent = [];
 
-// const ejemplo =document.getElementById("allEvents")
 
-const eventos = {
-    id: Number,
-    image: String,
-    name: String,
-    date: Date,
-    description: String,
-    category: "Food Fair",
-    place: String,
-    capacity: Number,
-    assistance: Number,
-    price: Number,
-  };
-//obtener todos los eventos
-// for (let i = 0; i < eventList.length; i++) {
-//   allEvent = eventList[i];
-//   console.log(allEvent);
+
+
+//METODO EL CUAL TOMA COMO REFERENCIA LA CARD YA CREADA EN HTML
+
+const card = document.querySelector('#allEvents')
+const template = document.querySelector('#template-card').content
+const fragment = document.createDocumentFragment()
+
+function verEventos(lista){
+  lista.forEach(item=>{
+    template.querySelector(' .cardimg img').src = item.image
+    template.querySelector(' .card-title').textContent= item.name
+    template.querySelector(' .card-text').textContent= item.description
+    template.querySelector(' .card-date').textContent= "Date of Event:  "+item.date
+    template.querySelector(' .price p').textContent= "Price: "+item.price+"$"
+    template.querySelector(' .btn').textContent= 'Add Cart'
+  
+    const clone = template.cloneNode(true)
+    fragment.appendChild(clone)
+    card.appendChild(fragment)
+  
+  });
+  
+}
+ verEventos(eventList)
+
+
+//Forma DE MOSTRAR LOS EVENTOS EN LAS CARDS VISTAS EN CLASE
+// **PARA QUE FUNCIONE COMENTAR "TEMPLATE"** EN EL HTML
+
+// let contenedorCard= document.getElementById("allEvents")
+// let cardHmtml=""
+
+// function traerEventos(){  
+// for(const eventos of eventList){
+//   cardHmtml+=`
+//   <div id="template-card" class="d-flex justify-content-center">
+//   <div class="card col-xl-3 col-lg-4 col-md-6 col-sm-12">
+//     <div class="cardimg">
+//       <img class="card-img-top" src=${eventos.image}/>
+//     </div>
+//     <div class="card-body">
+//       <h5 class="card-title" id="title">${eventos.name}</h5>
+//       <p class="card-text">${eventos.description}</p>
+//       <p class="card-date">${eventos.date}</p>
+//       <div class="price">
+//         <p>${eventos.price}</p>
+//         <a class="btn">Add Cart</a>
+//       </div>
+//     </div>
+//   </div>
+// </div>`
 
 // }
-const eventContainer = document.getElementById("allEvents");
-
-for (const event of eventList) {
-  const eventCard = document.createElement("div");
-  eventCard.classList.add("card");
-  eventCard.classList.add("col-xl-3")
-  eventCard.classList.add("col-lg-4")
-  eventCard.classList.add("col-md-6")
-  eventCard.classList.add("col-sm-12")
-
-  const imageCont = document.createElement("div");
-  imageCont.classList.add("cardImg")
-  const image = document.createElement('img')
-  image.classList.add("card-img-top")
-  image.src = event.image;
-  image.alt = event.name;
-  imageCont.appendChild(image); // Agregar imagen al div cardImg
-  eventCard.appendChild(imageCont); // Agregar div cardImg al eventCard
-
-
-  const card_body = document.createElement('div')
-  card_body.classList.add("card-body")
-  const name = document.createElement("h5");
-  name.classList.add("card-title")
-  name.textContent = event.name;
-  card_body.appendChild(name)
-  eventCard.appendChild(card_body);
-
-  const description = document.createElement("p");
-  description.classList.add("card-text")
-  description.textContent = event.description;
-  card_body.appendChild(description)
-  eventCard.appendChild(card_body);
-
-  
-  const date = document.createElement("p");
-  date.textContent = `Date of Event: ${event.date}`;
-  card_body.appendChild(date)
-  eventCard.appendChild(card_body);
-
-  const place = document.createElement("p");
-  place.textContent = `Place of the Event: ${event.place}`;
-  card_body.appendChild(place)
-  eventCard.appendChild(card_body);
-
-  const priceCont =document.createElement("div")
-  priceCont.classList.add("price")
-  const price = document.createElement("p");
-  price.textContent = `Price of ticket: ${event.price}$`;
-  const button = document.createElement("a")
-  button.classList.add("btn")
-  button.textContent= `Add Cart`
-  priceCont.appendChild(price);
-  priceCont.appendChild(button);
-  eventCard.appendChild(priceCont);
-
- eventContainer.appendChild(eventCard);
-}
-//obtener eventos del dia
-// let mainEvent = [];
-// for (let i = 0; i < eventList.length; i++) {
-//     if( currentDateEvent == eventList[i].date ){
-//          mainEvent = eventList[i]
-//       console.log(mainEvent)
-//     }
-//  }
-
-// const eventos = {
-//   id: 1,
-//   image: "https://i.postimg.cc/Fs03hQDt/Collectivities-Party.jpg",
-//   name: "Collectivities Party",
-//   date: "2021-12-12",
-//   description:
-//     "Enjoy your favourite dishes, from different countries, in a unique event for the whole family.",
-//   category: "Food Fair",
-//   place: "Room",
-//   capacity: 45000,
-//   assistance: 42756,
-//   price: 5,
-// };
-
-// console.log(eventos.name)
-// console.log(eventos.image)
-// console.log(eventos.description)
-// console.log(eventos.category)
-// console.log(eventos.price)
-// console.log("keys");
-// console.log(Object.keys(eventos));
-// console.log("values");
-// console.log(Object.values(eventos));
-// console.log("entries");
-// console.log(Object.entries(eventos));
-
-// let eventosList = [
-//   eventos.id,
-//   eventos.name,
-//   eventos.date,
-//   eventos.description,
-//   eventos.place,
-//   eventos.capacity,
-//   eventos.assistance,
-//   eventos.price,
-// ];
-// console.log(eventos)
-// //CANTIDAD DE INDICES
-// console.log(eventosList.length)
+// contenedorCard.innerHTML= cardHmtml
+// }
+// traerEventos()
