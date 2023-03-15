@@ -18,6 +18,7 @@ function pintarEventos(lista) {
         "Date of Event:  " + item.date;
       template.querySelector(" .price p").textContent =
         "Price: " + item.price + "$";
+      template.querySelector(" .btn").href = `./pages/details.html?id=${item._id}`;
       template.querySelector(" .btn").textContent = "Add Cart";
 
       const clone = template.cloneNode(true);
@@ -92,6 +93,11 @@ function filtroDoble(){
   let segundoFiltro=filtrarEventos(primerFiltro)
   pintarEventos(segundoFiltro)
 }
+
+
+
+
+
 
 generarChecks(eventList);
 pintarEventos(eventList);
