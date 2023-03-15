@@ -81,69 +81,17 @@
           >
             Filters
           </button>
-          <ul class="dropdown-menu">
-            <li>
-              <label>
-                Category
-                <input type="checkbox">
-              </label>
-            </li>
-            <li>
-              <label >
-                Category
-                <input type="checkbox">
-              </label>
-            </li>
-            <li>
-              <label >
-                Category
-                <input type="checkbox">
-              </label>
-            </li>
-            <li>
-              <label>
-                Category
-                <input type="checkbox" >
-              </label>
-            </li>
-            <li>
-              <label>
-                Category
-                <input type="checkbox" >
-              </label>
-            </li>
-          </ul>
-        </div>
-        <div class="filter">
-          <label >
-            Category
-            <input type="checkbox" >
-          </label>
-          <label >
-            Category
-            <input type="checkbox"  >
-          </label>
-          <label>
-            Category
-            <input type="checkbox" >
-          </label>
-          <label>
-            Category
-            <input type="checkbox" >
-          </label>
-          <label >
-            Category
-            <input type="checkbox"  >
-          </label>
+          <div class="filter" id="checks">
+            <ul class="dropdown-menu" id="checkbox-list"></ul>
+          </div> 
         </div>
         <div class="search">
-          <label>
-            <input
-              type="text"
-              placeholder="Search"
-              style="text-align: center"
-            ><i class="bi bi-search"></i>
-          </label>
+          <input
+            type="text"
+            placeholder="Search"
+            style="text-align: center"
+            id="search"
+          ><i class="bi bi-search"></i>
         </div>
       </div>
       <div class="items row" id="allEvents">

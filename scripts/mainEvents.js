@@ -1,61 +1,101 @@
-
-let eventList = data.events;
-
-
-
+const eventList = data.events;
 
 //METODO EL CUAL TOMA COMO REFERENCIA LA CARD YA CREADA EN HTML
+const card = document.querySelector("#allEvents");
+const template = document.querySelector("#template-card").content;
+const fragment = document.createDocumentFragment();
 
-const card = document.querySelector('#allEvents')
-const template = document.querySelector('#template-card').content
-const fragment = document.createDocumentFragment()
+function pintarEventos(lista) {
+  if (lista.length == 0) {
+    card.innerHTML = "<h2 class='text-center'>No existen eventos</h2>";
+  } else {
+    card.innerHTML = "";
+    lista.forEach((item) => {
+      template.querySelector(" .cardimg img").src = item.image;
+      template.querySelector(" .card-title").textContent = item.name;
+      template.querySelector(" .card-text").textContent = item.description;
+      template.querySelector(" .card-date").textContent =
+        "Date of Event:  " + item.date;
+      template.querySelector(" .price p").textContent =
+        "Price: " + item.price + "$";
+      template.querySelector(" .btn").textContent = "Add Cart";
 
-function verEventos(lista){
-  lista.forEach(item=>{
-    template.querySelector(' .cardimg img').src = item.image
-    template.querySelector(' .card-title').textContent= item.name
-    template.querySelector(' .card-text').textContent= item.description
-    template.querySelector(' .card-date').textContent= "Date of Event:  "+item.date
-    template.querySelector(' .price p').textContent= "Price: "+item.price+"$"
-    template.querySelector(' .btn').textContent= 'Add Cart'
-  
-    const clone = template.cloneNode(true)
-    fragment.appendChild(clone)
-    card.appendChild(fragment)
-  
-  });
-  
+      const clone = template.cloneNode(true);
+      fragment.appendChild(clone);
+    });
+    card.appendChild(fragment);
+  }
 }
- verEventos(eventList)
+
+//METODO EL CUAL CREA LAS CATEGORIAS DE FORMA DINAMICA DEPENDIENDO DEL ARRAY QUE SE PASE
+const checkboxList = document.getElementById("checkbox-list");
+function generarChecks(lista) {
+  const categorias = {};
+  lista.forEach((item) => {
+    const category = item.category;
+    if (!categorias[category]) {
+      categorias[category] = true;
+      const listItem = document.createElement("li");
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.name = "categoria";
+      input.value = category;
+      label.textContent = category;
+      label.appendChild(input);
+      listItem.appendChild(label);
+      checkboxList.appendChild(listItem);
+    }
+  });
+}
+
+//METODO EL CUAL ESCUCHA EL EVENTO CHANGE PARA LOS CHECKS
+const divChecks = document.querySelector("#checks");
+divChecks.addEventListener("change", () => {
+filtroDoble()
+});
 
 
-//Forma DE MOSTRAR LOS EVENTOS EN LAS CARDS VISTAS EN CLASE
-// **PARA QUE FUNCIONE COMENTAR "TEMPLATE"** EN EL HTML
+//METODO EL CUAL FILTRA LOS EVENTOS DEPENDIENDO DEL CHECK QUE ESTE MARCADO
+function filtrarEventos(lista) {
+  let checks = Array.from(document.querySelectorAll("input[type='checkbox']"));
+  let valores = checks
+    .filter((check) => check.checked)
+    .map((check) => check.value);
+  if (valores.length == 0) {
+    return lista;
+  } else {
+    let eventosFiltrados = lista.filter((elemento) =>
+      valores.includes(elemento.category)
+    );
+    return eventosFiltrados;
+  }
+}
 
-// let contenedorCard= document.getElementById("allEvents")
-// let cardHmtml=""
+//EVENT EL CUAL ESCUCHA EL EVENTO POR EL INPUT MEDIANTE KEYUP
+const inputSearch = document.querySelector("#search");
+inputSearch.addEventListener('keyup',(e)=>{
+  filtroDoble()
 
-// function traerEventos(){  
-// for(const eventos of eventList){
-//   cardHmtml+=`
-//   <div id="template-card" class="d-flex justify-content-center">
-//   <div class="card col-xl-3 col-lg-4 col-md-6 col-sm-12">
-//     <div class="cardimg">
-//       <img class="card-img-top" src=${eventos.image}/>
-//     </div>
-//     <div class="card-body">
-//       <h5 class="card-title" id="title">${eventos.name}</h5>
-//       <p class="card-text">${eventos.description}</p>
-//       <p class="card-date">${eventos.date}</p>
-//       <div class="price">
-//         <p>${eventos.price}</p>
-//         <a class="btn">Add Cart</a>
-//       </div>
-//     </div>
-//   </div>
-// </div>`
+})
 
-// }
-// contenedorCard.innerHTML= cardHmtml
-// }
-// traerEventos()
+//METODO EL CUAL FILTRA LOS EVENTOS POR EL NOMBRE DEL EVENTO 
+function searchEvento(lista, texto) {
+  let filteredEvents = lista.filter(elemento=>elemento.name
+    .toLowerCase().includes(texto.toLowerCase()))
+    return filteredEvents
+}
+
+//METODO EL CUAL FILTRA LOS EVENTOS DE MANERA CRUZADA
+function filtroDoble(){
+  let primerFiltro=searchEvento(eventList, inputSearch.value)
+  let segundoFiltro=filtrarEventos(primerFiltro)
+  pintarEventos(segundoFiltro)
+}
+
+generarChecks(eventList);
+pintarEventos(eventList);
+
+
+
+
