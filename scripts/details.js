@@ -1,14 +1,18 @@
-const eventList = data.events
-//METODO EL CUAL MUESTRA EL EVENTO EN DETAILS
+const url = "https://mindhub-xj03.onrender.com/api/amazing";
 
-const queryString=location.search
+fetch(url)
+.then((response)=> response.json())
+.then((data)=>{
+    const eventList=data.events
+    const currentDate=data.currentDate
+
+    const queryString=location.search
 
 const params = new URLSearchParams(queryString)
 
 const id= params.get("id")
 
 const evento = eventList.find(evento=> evento._id == id)
-
 
 
 const eventoSelect= document.querySelector("#details")
@@ -26,6 +30,10 @@ template.querySelector(".btn").textContent="Buy"
 fragment.appendChild(template)
 
 eventoSelect.appendChild(fragment)
+
+})
+//METODO EL CUAL MUESTRA EL EVENTO EN DETAILS
+
 
 
 

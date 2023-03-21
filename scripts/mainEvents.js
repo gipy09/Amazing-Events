@@ -1,4 +1,60 @@
-const eventList = data.events;
+// const eventList = data.events;
+
+const url = "https://mindhub-xj03.onrender.com/api/amazing";
+
+fetch(url)
+  .then((response) => response.json())
+  .then((data) => {
+    const eventList = data.events;
+
+    generarChecks(eventList);
+    pintarEventos(eventList);
+
+    //METODO EL CUAL ESCUCHA EL EVENTO CHANGE PARA LOS CHECKS
+    const divChecks = document.querySelector("#checks");
+    divChecks.addEventListener("change", () => {
+      filtroDoble();
+    });
+
+    //METODO EL CUAL FILTRA LOS EVENTOS DEPENDIENDO DEL CHECK QUE ESTE MARCADO
+    function filtrarEventos(lista) {
+      let checks = Array.from(
+        document.querySelectorAll("input[type='checkbox']")
+      );
+      let valores = checks
+        .filter((check) => check.checked)
+        .map((check) => check.value);
+      if (valores.length == 0) {
+        return lista;
+      } else {
+        let eventosFiltrados = lista.filter((elemento) =>
+          valores.includes(elemento.category)
+        );
+        return eventosFiltrados;
+      }
+    }
+
+    //EVENT EL CUAL ESCUCHA EL EVENTO POR EL INPUT MEDIANTE KEYUP
+    const inputSearch = document.querySelector("#search");
+    inputSearch.addEventListener("keyup", (e) => {
+      filtroDoble();
+    });
+
+    //METODO EL CUAL FILTRA LOS EVENTOS POR EL NOMBRE DEL EVENTO
+    function searchEvento(lista, texto) {
+      let filteredEvents = lista.filter((elemento) =>
+        elemento.name.toLowerCase().includes(texto.toLowerCase())
+      );
+      return filteredEvents;
+    }
+
+    //METODO EL CUAL FILTRA LOS EVENTOS DE MANERA CRUZADA
+    function filtroDoble() {
+      let primerFiltro = searchEvento(eventList, inputSearch.value);
+      let segundoFiltro = filtrarEventos(primerFiltro);
+      pintarEventos(segundoFiltro);
+    }
+  });
 
 //METODO EL CUAL TOMA COMO REFERENCIA LA CARD YA CREADA EN HTML
 const card = document.querySelector("#allEvents");
@@ -18,7 +74,9 @@ function pintarEventos(lista) {
         "Date of Event:  " + item.date;
       template.querySelector(" .price p").textContent =
         "Price: " + item.price + "$";
-      template.querySelector(" .btn").href = `./pages/details.html?id=${item._id}`;
+      template.querySelector(
+        " .btn"
+      ).href = `./pages/details.html?id=${item._id}`;
       template.querySelector(" .btn").textContent = "Add Cart";
 
       const clone = template.cloneNode(true);
@@ -49,59 +107,3 @@ function generarChecks(lista) {
     }
   });
 }
-
-//METODO EL CUAL ESCUCHA EL EVENTO CHANGE PARA LOS CHECKS
-const divChecks = document.querySelector("#checks");
-divChecks.addEventListener("change", () => {
-filtroDoble()
-});
-
-
-//METODO EL CUAL FILTRA LOS EVENTOS DEPENDIENDO DEL CHECK QUE ESTE MARCADO
-function filtrarEventos(lista) {
-  let checks = Array.from(document.querySelectorAll("input[type='checkbox']"));
-  let valores = checks
-    .filter((check) => check.checked)
-    .map((check) => check.value);
-  if (valores.length == 0) {
-    return lista;
-  } else {
-    let eventosFiltrados = lista.filter((elemento) =>
-      valores.includes(elemento.category)
-    );
-    return eventosFiltrados;
-  }
-}
-
-//EVENT EL CUAL ESCUCHA EL EVENTO POR EL INPUT MEDIANTE KEYUP
-const inputSearch = document.querySelector("#search");
-inputSearch.addEventListener('keyup',(e)=>{
-  filtroDoble()
-
-})
-
-//METODO EL CUAL FILTRA LOS EVENTOS POR EL NOMBRE DEL EVENTO 
-function searchEvento(lista, texto) {
-  let filteredEvents = lista.filter(elemento=>elemento.name
-    .toLowerCase().includes(texto.toLowerCase()))
-    return filteredEvents
-}
-
-//METODO EL CUAL FILTRA LOS EVENTOS DE MANERA CRUZADA
-function filtroDoble(){
-  let primerFiltro=searchEvento(eventList, inputSearch.value)
-  let segundoFiltro=filtrarEventos(primerFiltro)
-  pintarEventos(segundoFiltro)
-}
-
-
-
-
-
-
-generarChecks(eventList);
-pintarEventos(eventList);
-
-
-
-
