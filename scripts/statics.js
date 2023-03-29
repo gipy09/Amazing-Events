@@ -1,4 +1,3 @@
-// const eventList = data.events;
 
 const url = "https://mindhub-xj03.onrender.com/api/amazing";
 fetch(url)
@@ -6,6 +5,7 @@ fetch(url)
   .then((data) => {
     const eventList = data.events;
     const mayorAsistencia = eventoMayorAsistencia(eventList);
+
     const menorAsistencia = eventoMenorAsistencia(eventList);
     const mayorCapacidad = eventoMayorCapacidad(eventList);
     pintarEventsStatistics(mayorAsistencia, menorAsistencia, mayorCapacidad);
@@ -18,17 +18,21 @@ function eventoMayorAsistencia(lista) {
   let capacidad = 0;
   let mayorAsistencia = 0;
   let eventoMayorAsis = null;
+  let porcentajeMayorAsistencia=0
   lista.forEach((data) => {
-    capacidad += data.capacity;
-    asistencias += data.assistance;
-    let porcentajeMayorAsistencia = (asistencias / capacidad) * 100;
-    if (porcentajeMayorAsistencia > mayorAsistencia) {
-      mayorAsistencia = porcentajeMayorAsistencia;
-      eventoMayorAsis = data;
-    }
+      capacidad = data.capacity;
+      asistencias = data.assistance;
+      porcentajeMayorAsistencia = (asistencias / capacidad) * 100;
+      if (porcentajeMayorAsistencia > mayorAsistencia) {
+        mayorAsistencia = porcentajeMayorAsistencia;
+        eventoMayorAsis = data;
+      }
+    
+  
+ 
   });
 
-  return eventoMayorAsis.name;
+  return eventoMayorAsis;
 }
 
 function eventoMenorAsistencia(lista) {
@@ -37,8 +41,8 @@ function eventoMenorAsistencia(lista) {
   let menorAsistencia = Infinity;
   let eventoMenorAsis = null;
   lista.forEach((data) => {
-    capacidad += data.capacity;
-    asistencias += data.assistance;
+    capacidad = data.capacity;
+    asistencias = data.assistance;
     let porcentajeMenorAsistencia = (asistencias / capacidad) * 100;
     if (menorAsistencia > porcentajeMenorAsistencia) {
       menorAsistencia = porcentajeMenorAsistencia;
@@ -46,7 +50,7 @@ function eventoMenorAsistencia(lista) {
     }
   });
 
-  return eventoMenorAsis.name;
+  return eventoMenorAsis;
 }
 
 function eventoMayorCapacidad(lista) {
@@ -54,14 +58,14 @@ function eventoMayorCapacidad(lista) {
   let mayorCapacidad = 0;
   let eventoMayorCapacidad = null;
   lista.forEach((data) => {
-    capacidad += data.capacity;
+    capacidad = data.capacity;
     if (capacidad > mayorCapacidad) {
       mayorCapacidad = capacidad;
       eventoMayorCapacidad = data;
     }
   });
 
-  return eventoMayorCapacidad.name;
+  return eventoMayorCapacidad;
 }
 
 const cardEvents = document.getElementById("detallesEventos");
@@ -74,9 +78,9 @@ function pintarEventsStatistics(
   let eventoCard = "";
   eventoCard += `
       <tr>
-        <td>${eventoMayorAsis}</td>
-        <td>${eventoMenorAsis}</td>
-        <td>${eventoMayorCapacidad}</td>
+        <td>${eventoMayorAsis.name} (${(eventoMayorAsis.assistance/eventoMayorAsis.capacity)*100}%)</td>
+        <td>${eventoMenorAsis.name} (${(eventoMenorAsis.assistance/eventoMenorAsis.capacity)*100}%)</td>
+        <td>${eventoMayorCapacidad.name}(${eventoMayorCapacidad.capacity})</td>
       </tr>`;
   cardEvents.innerHTML = eventoCard;
 }
@@ -91,9 +95,8 @@ function upCommingEvents(lista) {
     let listaCat = lista.filter(
       (evento) => evento.category === categoria && evento.estimate !== undefined
     );
-    let listaRevenues = listaCat.map((evento) => evento.estimate);
+    let listaRevenues = listaCat.map((evento) => evento.estimate * evento.price);
     let revenues = listaRevenues.reduce((acc, ganancias) => acc + ganancias, 0);
-
     let listaCap = listaCat.map((evento) => evento.capacity);
     let listaAsis = lista.filter(
       (evento) => evento.category === categoria && evento.estimate !== undefined
@@ -132,7 +135,9 @@ function pastEvents(lista) {
       (evento) =>
         evento.category === categoria && evento.assistance !== undefined
     );
-    let listaRevenues = listaCat.map((evento) => evento.assistance);
+
+
+    let listaRevenues = listaCat.map((evento) => evento.assistance * evento.price);
     let revenues = listaRevenues.reduce((acc, ganancias) => acc + ganancias, 0);
 
     let listaCap = listaCat.map((evento) => evento.capacity);

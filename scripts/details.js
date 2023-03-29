@@ -5,6 +5,7 @@ fetch(url)
 .then((data)=>{
     const eventList=data.events
     const currentDate=data.currentDate
+    console.log(data.events)
 
     const queryString=location.search
 
